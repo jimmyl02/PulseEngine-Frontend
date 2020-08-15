@@ -5,6 +5,11 @@ import { Flex, Text, Box, Stack, Menu, MenuButton, MenuList, MenuItem, Button } 
 const Navbar = (props) => {
     const history = useHistory();
 
+    const logout = () => {
+        localStorage.removeItem('authToken');
+        history.push('/');
+    }
+
     return (
         <React.Fragment>
             <Flex w='100%' px='2em' pt='1.5em' pb='1em' justify='space-between' align='center' color={props.textColor}>
@@ -39,7 +44,7 @@ const Navbar = (props) => {
                             Account
                         </MenuButton>
                         <MenuList>
-                            <MenuItem onClick={() => {history.push('/logout')}}>
+                            <MenuItem onClick={() => {logout()}}>
                                 <Text color='navbar.dropdownText'>
                                     Logout
                                 </Text>

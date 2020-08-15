@@ -7,6 +7,7 @@ import Splash from './containers/Splash';
 import Login from './containers/Login';
 import Register from './containers/Register';
 import Home from './containers/Home';
+import Owned from './containers/Owned';
 
 const RootRouter = () => {
     return (
@@ -16,6 +17,7 @@ const RootRouter = () => {
                 <Route path='/login' component={Login} />
                 <Route path='/register' component={Register} />
                 <AuthenticatedRoute path='/home' component={Home} />
+                <AuthenticatedRoute path='/owned' component={Owned} />
             </Switch>
         </BrowserRouter>
     );

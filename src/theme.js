@@ -4,9 +4,7 @@ const customTheme = {
     ...theme,
     colors: {
         ...theme.colors,
-        bg: {
-            darkPop: '#e0e0e0'
-        },
+        darkPop: '#e0e0e0',
         navbar: {
             dropdownText: 'black'
         }
@@ -22,6 +20,11 @@ const customTheme = {
         },
         navbar: {
             text: '1.5rem'
+        },
+        home: {
+            header: '2rem',
+            subsectionHeader: '1.5rem',
+            subsectionText: '1.25rem'
         }
     }
 };
