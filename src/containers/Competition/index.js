@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory, useParams, Redirect } from 'react-router-dom';
-import { Flex, Box, Text, Spinner, Heading, List, ListItem, ListIcon, Link, Icon } from '@chakra-ui/core';
+import { Flex, Box, Text, Spinner, Button, Code } from '@chakra-ui/core';
 
 import Navbar from '../../components/Navbar';
+import SimpleModal from '../../components/SimpleModal';
 
 import { API_URL } from '../../config';
 
@@ -14,6 +15,8 @@ const Home = () => {
     const [scores, setScores] = useState({});
     const [competitionName, setCompetitionName] = useState('');
     const [apikey, setApikey] = useState('');
+    const [competitionModalOpen, setCompetitionModalOpen] = useState(false);
+    const [apikeyModalOpen, setApikeyModalOpen] = useState(false);
 
     const fetchInfo = async () => {
         const adminInfoRequest = await fetch(API_URL + '/api/competitions/admininfo', {
@@ -89,11 +92,38 @@ const Home = () => {
             <Box position='fixed' h='100%' w='100%' bg='gray.800' overflow='auto'>
                 <Navbar textColor='white' />
                 <Box px='4em' py='3em' bg='teal' w='100%'>
-                    <Text fontSize='home.header' color='white'>
-                        {competitionName}
-                    </Text>
-                    <Flex w='100%' mt='1em' mx='-1em' justify='center' flexWrap='wrap'>
-
+                    <Flex flexDirection='row' flexWrap='wrap' alignItems='center'>
+                        <Text fontSize='home.header' color='white'>
+                            {competitionName}
+                        </Text>
+                        {apikey && 
+                            <Button ml='1em' variantColor='blue' onClick={() => setCompetitionModalOpen(true)}>
+                                Add user to competition
+                            </Button>
+                        }
+                        {apikey && 
+                            <Button ml='1em' variantColor='blue' onClick={() => setApikeyModalOpen(true)}>
+                                Display API key
+                            </Button>
+                        }
+                    </Flex>
+                    <SimpleModal open={competitionModalOpen} setOpen={setCompetitionModalOpen} header='Add a user to the competition'>
+                        <Text color='black'>
+                            hi this is some text
+                        </Text>
+                    </SimpleModal>
+                    <SimpleModal open={apikeyModalOpen} setOpen={setApikeyModalOpen} header='API key'>
+                        <Text color='black'>
+                            Do not share this with anyone except competition administrators
+                        </Text>
+                        <Code variantColor='gray'>
+                            {apikey}
+                        </Code>
+                    </SimpleModal>
+                    <Flex w='100%' mt='1em' mx='-1em' justify='center' flexWrap='wrap' color='white'>
+                        <Text>
+                            Hello!
+                        </Text>
                     </Flex>
                 </Box>
             </Box>
