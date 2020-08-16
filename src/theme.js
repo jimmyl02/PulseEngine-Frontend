@@ -22,9 +22,11 @@ const customTheme = {
             text: '1.5rem'
         },
         home: {
-            header: '2rem',
-            subsectionHeader: '1.5rem',
-            subsectionText: '1.25rem'
+            header: '2rem'
+        },
+        card: {
+            header: '1.5rem',
+            text: '1.25rem'
         }
     }
 };

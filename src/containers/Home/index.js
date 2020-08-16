@@ -48,18 +48,18 @@ const Home = () => {
         );
     }else{
         return (
-            <Box position='fixed' h='100%' w='100%' bg='gray.800'>
+            <Box position='fixed' h='100%' w='100%' bg='gray.800' overflow='auto'>
                 <Navbar textColor='white' />
                 <Box px='4em' py='3em' bg='teal' w='100%'>
                     <Text fontSize='home.header' color='white'>
                         Welcome {fname}
                     </Text>
-                    <Flex w='100%' mt='1em' justify='center'>
-                        <Box flex={1} p='1.5em' mr='1em' shadow='md' borderWidth='1px' rounded='md' color='white'>
-                            <Heading fontSize='home.subsectionHeader'>
+                    <Flex w='100%' mt='1em' mx='-1em' justify='center' flexWrap='wrap'>
+                        <Box flex={1} p='1.5em' m='0.5em' shadow='md' borderWidth='1px' rounded='md' color='white'>
+                            <Heading fontSize='card.header'>
                                 Getting Started
                             </Heading>
-                            <Box mt='4px' fontSize='home.subsectionText'>
+                            <Box mt='4px' fontSize='card.text'>
                                 <List spacing={4}>
                                     <ListItem>
                                         This website is used to view the scores from the scoring engine, it does not do the actual scoring. In order to install the scoring system, please view and install the scoring engine from <Link href='https://github.com/jimmyl02/cyberCCDCScoring'>my github here<Icon name="external-link" mx="2px" /></Link>
@@ -88,15 +88,15 @@ const Home = () => {
                                 </List>
                             </Box>
                         </Box>
-                        <Box flex={1} p='1.5em' ml='1em' shadow='md' borderWidth='1px' rounded='md' color='white'>
-                            <Heading fontSize='home.subsectionHeader'>
+                        <Box flex={1} p='1.5em' m='0.5em' shadow='md' borderWidth='1px' rounded='md' color='white'>
+                            <Heading fontSize='card.header'>
                                 Your Competitions
                             </Heading>
                             <Box mt='4px'>
-                                <Text fontSize='home.subsectionText'>
+                                <Text fontSize='card.text'>
                                     Owned Competitions: {ownedCompetitions.length}
                                 </Text>
-                                <Text fontSize='home.subsectionText'>
+                                <Text fontSize='card.text'>
                                     Participating Competitions: {participatingCompetitions.length}
                                 </Text>
                             </Box>

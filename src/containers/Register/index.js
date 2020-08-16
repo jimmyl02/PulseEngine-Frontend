@@ -39,7 +39,7 @@ const Register = () => {
     
     const validateEmail = (value) => {
         let error;
-        if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)){
+        if (!/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value)){
             error = 'Invalid email address!';
         }
         return error;

@@ -8,6 +8,9 @@ import Login from './containers/Login';
 import Register from './containers/Register';
 import Home from './containers/Home';
 import Owned from './containers/Owned';
+import Participating from './containers/Participating';
+import Create from './containers/Create';
+import Competition from './containers/Competition';
 
 const RootRouter = () => {
     return (
@@ -18,6 +21,9 @@ const RootRouter = () => {
                 <Route path='/register' component={Register} />
                 <AuthenticatedRoute path='/home' component={Home} />
                 <AuthenticatedRoute path='/owned' component={Owned} />
+                <AuthenticatedRoute path='/participating' component={Participating} />
+                <AuthenticatedRoute path='/create' component={Create} />
+                <AuthenticatedRoute path='/competition/:compId' component={Competition} />
             </Switch>
         </BrowserRouter>
     );

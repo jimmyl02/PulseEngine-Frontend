@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory, Link as ReactRouterLink } from 'react-router-dom';
-import { Flex, Box, Text, Spinner, Heading, List, ListItem, ListIcon, Link, Icon } from '@chakra-ui/core';
+import { useHistory } from 'react-router-dom';
+import { Flex, Box, Text, Button } from '@chakra-ui/core';
 
 import Navbar from '../../components/Navbar';
 import CompetitionCard from '../../components/CompetitionCard';
@@ -33,13 +33,18 @@ const Owned = () => {
     }, []);
 
     return (
-        <Box position='fixed' h='100%' w='100%' bg='gray.800'>
+        <Box position='fixed' h='100%' w='100%' bg='gray.800' overflow='auto'>
             <Navbar textColor='white' />
             <Box px='4em' py='3em' bg='teal' w='100%'>
-                <Text fontSize='home.header' color='white'>
-                    Competitions you own
-                </Text>
-                <Flex w='100%' mt='1em' justify='center'd='column'>
+                <Flex flexDirection='row' flexWrap='wrap' alignItems='center'>
+                    <Text fontSize='home.header' color='white'>
+                        Competitions you own
+                    </Text>
+                    <Button ml='1em' variantColor='blue' onClick={() => history.push('/create')}>
+                        Create a competition
+                    </Button>
+                </Flex>
+                <Flex w='100%' mt='1em' justify='center' flexDirection='column' alignItems='center'>
                     {ownedCompetitions.map(competitionUUID => {
                         return <CompetitionCard key={competitionUUID} uuid={competitionUUID} />
                     })}

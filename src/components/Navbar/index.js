@@ -32,9 +32,14 @@ const Navbar = (props) => {
                                     Owned Competitions
                                 </Text>
                             </MenuItem>
-                            <MenuItem onClick={() => {history.push('/owned')}}>
+                            <MenuItem onClick={() => {history.push('/participating')}}>
                                 <Text color='navbar.dropdownText'>
                                     Participanting Competitions
+                                </Text>
+                            </MenuItem>
+                            <MenuItem onClick={() => {history.push('/create')}}>
+                                <Text color='navbar.dropdownText'>
+                                    Create a competition
                                 </Text>
                             </MenuItem>
                         </MenuList>

@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { Box, Flex, Spinner, Text } from '@chakra-ui/core';
+import { useHistory } from 'react-router-dom';
+import { Box, PseudoBox, Flex, Spinner, Text } from '@chakra-ui/core';
 
 import { API_URL } from '../../config';
 
 const CompetitionCard = (props) => {
+    const history = useHistory();
     const competitionUUID = props.uuid;
 
     const [loading, setLoading] = useState(true);
@@ -31,22 +32,26 @@ const CompetitionCard = (props) => {
     useEffect(() => {
         fetchCompetition(competitionUUID);
     }, []);
+
+    const redirToCompetition = (uuid) => {
+        history.push('/competition/' + uuid);
+    };
     
     if(loading){
         return (
-            <Box borderWidth='1px' rounded='md' width='100%'>
-                <Flex position='fixed' w='100%' align='center' justify='center'>
+            <Box borderWidth='1px' rounded='md' width='75%' px='1.5em' py='1em' mt='1em' height='100%' color='white'>
+                <Flex justify='center'>
                     <Spinner size='md' color='darkPop' />
-                </Flex>
+                </Flex> 
             </Box>
         );
     }else{
         return (
-            <Box borderWidth='1px' rounded='md' width='100%' color='white'>
-                <Text>
+            <PseudoBox borderWidth='1px' rounded='md' width='75%' px='1.5em' py='1em' mt='1em' height='100%' color='white' _hover={{ cursor: 'pointer' }} onClick={() => redirToCompetition(competitionUUID)}>
+                <Text fontSize='card.text'>
                     {competitionName}
                 </Text>
-            </Box>
+            </PseudoBox>
         );
     }
 };

@@ -53,7 +53,7 @@ const Login = () => {
                                 <FormControl isInvalid={requestInvalid}>
                                     <FormErrorMessage mb='0.5em'>Username / Password combination was incorrect</FormErrorMessage>
                                 </FormControl>
-                                <Field name="username">
+                                <Field name='username'>
                                     {({ field, form }) => (
                                     <FormControl isInvalid={form.errors.username && form.touched.username}>
                                         <FormLabel htmlFor='username'>Username</FormLabel>
