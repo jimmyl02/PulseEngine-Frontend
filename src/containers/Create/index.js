@@ -24,6 +24,7 @@ const Create = () => {
         const parsedLoginRequest = await loginRequest.json();
         if(parsedLoginRequest.status && parsedLoginRequest.status === 'success'){
             toast({
+                position: 'top-right',
                 title: 'Competition created',
                 description: 'Your competition was successfully created.',
                 status: 'success',

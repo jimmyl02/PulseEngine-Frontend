@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory, useParams, Redirect } from 'react-router-dom';
-import { Flex, Box, Text, Spinner, Button, Code } from '@chakra-ui/core';
+import { Formik, Field } from 'formik';
+import { Flex, Box, Text, Spinner, Button, Code, FormControl, FormLabel, FormErrorMessage, Input, useToast } from '@chakra-ui/core';
 
 import Navbar from '../../components/Navbar';
 import SimpleModal from '../../components/SimpleModal';
@@ -10,6 +11,7 @@ import { API_URL } from '../../config';
 const Home = () => {
     const history = useHistory();
     const { compId } = useParams();
+    const toast = useToast();
 
     const [loading, setLoading] = useState(0);
     const [scores, setScores] = useState({});
@@ -19,6 +21,7 @@ const Home = () => {
     const [apikeyModalOpen, setApikeyModalOpen] = useState(false);
 
     const fetchInfo = async () => {
+        // initial info request asks for the admin route
         const adminInfoRequest = await fetch(API_URL + '/api/competitions/admininfo', {
             method: 'POST',
             headers: {
@@ -43,14 +46,15 @@ const Home = () => {
                 body: JSON.stringify({ compId: compId })
             });
             const parsedInfoRequest = await infoRequest.json();
-            if(parsedInfoRequest.scoreRequest === 'success'){
-                const infoData = parsedInfoRequest.body;
+            if(parsedInfoRequest.status === 'success'){
+                const infoData = parsedInfoRequest.data;
                 setCompetitionName(infoData.name);
             }else{
                 history.push('/home');
             }
         }
 
+        // get the scores and set the scores state
         const scoreRequest = await fetch(API_URL + '/api/competitions/getscores', {
             method: 'POST',
             headers: {
@@ -71,6 +75,81 @@ const Home = () => {
     useEffect(() => {
         fetchInfo();
     }, []);
+
+    // core logic for handling adding a user to a competition
+    const handleAddUserSubmit = async (values, actions) => {
+        const addUserRequest = await fetch(API_URL + '/api/competitions/adduser', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem('authToken')
+            },
+            body: JSON.stringify({compId: compId, username: values.username})
+        });
+        const parsedAddUserRequest = await addUserRequest.json();
+        if(parsedAddUserRequest.status){
+            if(parsedAddUserRequest.status === 'success'){
+                toast({
+                    position: 'top-right',
+                    title: 'User added to competition',
+                    description: 'The user was successfully added to the competition.',
+                    status: 'success',
+                    duration: '3000',
+                    isClosable: true
+                });
+                actions.setSubmitting(false);
+            }else if(parsedAddUserRequest.data === 'username does not exist'){
+                toast({
+                    position: 'top-right',
+                    title: 'Username not found',
+                    description: 'The requested username was not found, please try again.',
+                    status: 'error',
+                    duration: '3000',
+                    isClosable: true
+                });
+                actions.setSubmitting(false);
+            }else if(parsedAddUserRequest.data === 'the user is already a part of the competition'){
+                toast({
+                    position: 'top-right',
+                    title: 'Username is already a participant',
+                    description: 'The requested user is already a participant.',
+                    status: 'error',
+                    duration: '3000',
+                    isClosable: true
+                });
+                actions.setSubmitting(false);
+            }else{
+                toast({
+                    position: 'top-right',
+                    title: 'Something went wrong',
+                    description: 'Something went wrong, please try again.',
+                    status: 'error',
+                    duration: '3000',
+                    isClosable: true
+                });
+                actions.setSubmitting(false);
+            }
+        }else{
+            toast({
+                position: 'top-right',
+                title: 'Something went wrong',
+                description: 'Something went wrong, please try again.',
+                status: 'error',
+                duration: '3000',
+                isClosable: true
+            });
+            actions.setSubmitting(false);
+        }
+    };
+
+    // validation function used with formik
+    const validateNonNull = (value) => {
+        let error;
+        if(!value){
+            error = 'This field is required';
+        }
+        return error;
+    };
 
     if(!compId){
         return (
@@ -108,9 +187,29 @@ const Home = () => {
                         }
                     </Flex>
                     <SimpleModal open={competitionModalOpen} setOpen={setCompetitionModalOpen} header='Add a user to the competition'>
-                        <Text color='black'>
-                            hi this is some text
-                        </Text>
+                    <Formik
+                            initialValues={{ username: '' }}
+                            onSubmit={handleAddUserSubmit}
+                            >
+                            {props => (
+                                <form onSubmit={props.handleSubmit}>
+                                <Field name='username' validate={validateNonNull}>
+                                    {({ field, form }) => (
+                                    <FormControl isInvalid={form.errors.username && form.touched.username}>
+                                        <FormLabel htmlFor='username'>Username</FormLabel>
+                                        <Input {...field} id='username' placeholder='username' color='black' />
+                                        <FormErrorMessage>{form.errors.username}</FormErrorMessage>
+                                    </FormControl>
+                                    )}
+                                </Field>
+                                <Flex justify='center'>
+                                    <Button mt={4} variantColor="blue" isLoading={props.isSubmitting} type="submit">
+                                        Submit
+                                    </Button>
+                                </Flex>
+                                </form>
+                            )}
+                        </Formik>
                     </SimpleModal>
                     <SimpleModal open={apikeyModalOpen} setOpen={setApikeyModalOpen} header='API key'>
                         <Text color='black'>
@@ -122,7 +221,7 @@ const Home = () => {
                     </SimpleModal>
                     <Flex w='100%' mt='1em' mx='-1em' justify='center' flexWrap='wrap' color='white'>
                         <Text>
-                            Hello!
+                            Here is where the core logic of subcomponents will go, I think I need to use subcomponents, it's becoming too thick
                         </Text>
                     </Flex>
                 </Box>
