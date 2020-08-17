@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Flex, Text, Box, Stack, Menu, MenuButton, MenuList, MenuItem, Button } from '@chakra-ui/core';
+import { Flex, Text, Box, Menu, MenuButton, MenuList, MenuItem, Button } from '@chakra-ui/core';
 
 const Navbar = (props) => {
     const history = useHistory();

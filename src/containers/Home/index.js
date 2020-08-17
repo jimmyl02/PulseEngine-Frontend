@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useHistory, Link as ReactRouterLink } from 'react-router-dom';
 import { Flex, Box, Text, Spinner, Heading, List, ListItem, ListIcon, Link, Icon } from '@chakra-ui/core';
 
@@ -14,7 +14,7 @@ const Home = () => {
     const [ownedCompetitions, setOwnedCompetitions] = useState([]);
     const [participatingCompetitions, setParticipatingCompetitions] = useState([]);
 
-    const fetchProfile = async () => {
+    const fetchProfile = useCallback(async () => {
         const profileRequest = await fetch(API_URL + '/api/users/profile',{
             method: 'GET',
             headers: {
@@ -31,11 +31,11 @@ const Home = () => {
         }else{
             history.push('/login');
         }
-    }
+    }, [history]);
 
     useEffect(() => {
         fetchProfile();
-    }, []);
+    }, [fetchProfile]);
 
     if(loading){
         return (

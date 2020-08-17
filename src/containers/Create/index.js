@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Formik, Field } from 'formik';
-import { Flex, Box, Text, Button, FormControl, FormLabel, FormErrorMessage, Input, InputGroup, InputRightElement, useToast } from '@chakra-ui/core';
+import { Flex, Box, Text, Button, FormControl, FormLabel, FormErrorMessage, Input, useToast } from '@chakra-ui/core';
 
 import { API_URL } from '../../config';
 
 const Create = () => {
     const history = useHistory();
     const toast = useToast();
-
-    const [show, setShow] = useState(false);
+    
     const [requestInvalid, setRequestInvalid] = useState(false);
 
     const handleSubmit = async (values, actions) => {

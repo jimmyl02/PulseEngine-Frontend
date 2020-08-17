@@ -25,6 +25,13 @@ const Home = () => {
         fetchInfo(history, compId, setCompetitionName, setApikey, setScores, setLoading);
     }, [history, compId]);
 
+    useEffect(() => {
+        const interval = setInterval(() => {
+            fetchInfo(history, compId, setCompetitionName, setApikey, setScores, setLoading);
+        }, 30 * 1000);
+        return () => clearInterval(interval);
+      }, [history, compId]);
+
     // validation function used with formik
     const validateNonNull = (value) => {
         let error;

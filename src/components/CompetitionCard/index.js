@@ -31,7 +31,7 @@ const CompetitionCard = (props) => {
 
     useEffect(() => {
         fetchCompetition(competitionUUID);
-    }, []);
+    }, [competitionUUID]);
 
     const redirToCompetition = (uuid) => {
         history.push('/competition/' + uuid);
