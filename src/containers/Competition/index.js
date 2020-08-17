@@ -23,7 +23,7 @@ const Home = () => {
 
     useEffect(() => {
         fetchInfo(history, compId, setCompetitionName, setApikey, setScores, setLoading);
-    }, []);
+    }, [history, compId]);
 
     // validation function used with formik
     const validateNonNull = (value) => {

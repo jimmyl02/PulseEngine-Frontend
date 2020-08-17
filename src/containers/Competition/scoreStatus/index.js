@@ -9,7 +9,7 @@ const TeamRow = (props) => {
         <React.Fragment>
         <Box w='100%' h='10' borderWidth='1px' borderColor='darkPop'>
             <Flex w='100%' h='100%' justify='center' align='center'>
-                <Text color='white'>
+                <Text mx='1em' color='white'>
                     {teamName}
                 </Text>
             </Flex>

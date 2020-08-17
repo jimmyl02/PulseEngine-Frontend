@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Flex, Box, Text, Button } from '@chakra-ui/core';
 
@@ -12,7 +12,7 @@ const Owned = () => {
 
     const [ownedCompetitions, setOwnedCompetitions] = useState([]);
 
-    const fetchProfile = async () => {
+    const fetchProfile = useCallback(async () => {
         const profileRequest = await fetch(API_URL + '/api/users/profile', {
             method: 'GET',
             headers: {
@@ -26,11 +26,11 @@ const Owned = () => {
         }else{
             history.push('/login');
         }
-    }
+    }, [history]);
 
     useEffect(() => {
         fetchProfile();
-    }, []);
+    }, [fetchProfile]);
 
     if(ownedCompetitions.length === 0){
         return (

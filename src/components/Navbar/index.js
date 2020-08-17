@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Flex, Text, Box, Stack, Menu, MenuButton, MenuList, MenuItem, Button } from '@chakra-ui/core';
 
 const Navbar = (props) => {
     const history = useHistory();
+
+    const [showHamburger, setShowHamburger] = useState(false);
+    const handleToggle = () => {
+        setShowHamburger(!showHamburger);
+    }
 
     const logout = () => {
         localStorage.removeItem('authToken');
@@ -12,13 +17,24 @@ const Navbar = (props) => {
 
     return (
         <React.Fragment>
-            <Flex w='100%' px='2em' pt='1.5em' pb='1em' justify='space-between' align='center' color={props.textColor}>
+            <Flex w='100%' px='2em' pt='1.5em' pb='1em' justify='space-between' align='center' color={props.textColor} wrap='wrap'>
                 <Box>
                     <Text fontSize='navbar.text'>
                         CCDC Scoring
                     </Text>
                 </Box>
-                <Stack isInline>
+                <Box display={{ base: "block", md: "none" }} onClick={handleToggle}>
+                    <svg
+                    fill="white"
+                    width="12px"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                    >
+                    <title>Menu</title>
+                    <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
+                    </svg>
+                </Box>
+                <Flex display={{ base: showHamburger ? 'flex' : 'none', md: 'flex' }}  width={{ base: 'full', md: 'auto' }} flexDirection={{ base: 'column', md: 'row' }}>
                     <Button bg='gray.800' _hover={{ bg: 'gray.800' }} _active={{ bg: 'gray.800' }} _focus={{}} onClick={() => {history.push('/home')}}>
                         Home
                     </Button>
@@ -56,7 +72,7 @@ const Navbar = (props) => {
                             </MenuItem>
                         </MenuList>
                     </Menu>
-                </Stack>
+                </Flex>
             </Flex>
             <Box w='100%' py='0.1em' bg='gray.600'></Box>
         </React.Fragment>
