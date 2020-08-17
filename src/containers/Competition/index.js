@@ -7,6 +7,7 @@ import Navbar from '../../components/Navbar';
 import SimpleModal from '../../components/SimpleModal';
 import { fetchInfo, generateHandleAddUserSubmit } from './api';
 import ScoreStatus from './scoreStatus';
+import ScoreTotal from './scoreTotal';
 
 const Home = () => {
     const history = useHistory();
@@ -107,14 +108,12 @@ const Home = () => {
                                 <Tab>Current Status</Tab>
                                 <Tab>Current Scores</Tab>
                             </TabList>
-                            <TabPanels>
+                            <TabPanels mt='1em'>
                                 <TabPanel>
-                                    <ScoreStatus scores={scores}/>
+                                    <ScoreStatus scores={scores} />
                                 </TabPanel>
                                 <TabPanel>
-                                <Text>
-                                    
-                                </Text>
+                                    <ScoreTotal scores={scores} />
                                 </TabPanel>
                             </TabPanels>
                         </Tabs>

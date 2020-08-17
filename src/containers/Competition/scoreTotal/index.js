@@ -1,5 +1,5 @@
 import React from 'react';
-import { Spinner, Flex, Text, Grid, Box, Icon } from '@chakra-ui/core';
+import { Spinner, Flex, Text, Grid, Box } from '@chakra-ui/core';
 
 const TeamRow = (props) => {
     const teamName = props.teamName;
@@ -15,29 +15,21 @@ const TeamRow = (props) => {
             </Flex>
         </Box>
         {Object.keys(teamData).map((service) => {
-            if(teamData[service].status){
-                return(
-                    <Box key={service} w='100%' h='10' borderWidth='1px' borderColor='darkPop'>
-                        <Flex w='100%' h='100%' justify='center' align='center'>
-                            <Icon name='check' size='1rem' color='green.400' />
-                        </Flex>
-                    </Box>
-                );
-            }else{
-                return(
-                    <Box key={service} w='100%' h='10' borderWidth='1px' borderColor='darkPop'>
-                        <Flex w='100%' h='100%' justify='center' align='center'>
-                            <Icon name='close' size='1rem' color='red.500' />
-                        </Flex>
-                    </Box>
-                );
-            }
+            return (
+                <Box key={service} w='100%' h='10' borderWidth='1px' borderColor='darkPop'>
+                    <Flex w='100%' h='100%' justify='center' align='center'>
+                        <Text color='white'>
+                            {teamData[service].checksUp + ' / ' + teamData[service].totalChecks}
+                        </Text>
+                    </Flex>
+                </Box>
+            );
         })}
         </React.Fragment>
     );
 } 
 
-const ScoreStatus = (props) => {
+const ScoreTotal = (props) => {
     const scores = props.scores;
 
     if(scores === undefined){
@@ -79,4 +71,4 @@ const ScoreStatus = (props) => {
     }
 }
 
-export default ScoreStatus
+export default ScoreTotal
