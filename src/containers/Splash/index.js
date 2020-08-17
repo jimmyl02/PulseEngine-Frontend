@@ -11,7 +11,7 @@ const Splash = () => {
                 <Box rounded='lg' bg='blue.800' ml='7em'>
                     <Box mx='2em' mb='1em' color='white'>
                         <Text mt='0.5em' fontSize='splash.header'>
-                            CCDC Scoring
+                            Scoring Service
                         </Text>
                         <Text mt='0.2em' fontSize='splash.description'>
                             A tool to train for CCDC style competitions

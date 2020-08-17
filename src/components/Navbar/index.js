@@ -20,7 +20,7 @@ const Navbar = (props) => {
             <Flex w='100%' px='2em' pt='1.5em' pb='1em' justify='space-between' align='center' color={props.textColor} wrap='wrap'>
                 <Box>
                     <Text fontSize='navbar.text'>
-                        CCDC Scoring
+                        Scoring Service
                     </Text>
                 </Box>
                 <Box display={{ base: "block", md: "none" }} onClick={handleToggle}>
