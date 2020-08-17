@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory, useParams, Redirect } from 'react-router-dom';
 import { Formik, Field } from 'formik';
-import { Flex, Box, Text, Spinner, Button, Code, FormControl, FormLabel, FormErrorMessage, Input, useToast } from '@chakra-ui/core';
+import { Flex, Box, Text, Spinner, Button, Code, FormControl, FormLabel, FormErrorMessage, Input, useToast, Tabs, Tab, TabList, TabPanels, TabPanel} from '@chakra-ui/core';
 
 import Navbar from '../../components/Navbar';
 import SimpleModal from '../../components/SimpleModal';
-
-import { API_URL } from '../../config';
+import { fetchInfo, generateHandleAddUserSubmit } from './api';
+import ScoreStatus from './scoreStatus';
 
 const Home = () => {
     const history = useHistory();
@@ -14,133 +14,15 @@ const Home = () => {
     const toast = useToast();
 
     const [loading, setLoading] = useState(0);
-    const [scores, setScores] = useState({});
     const [competitionName, setCompetitionName] = useState('');
     const [apikey, setApikey] = useState('');
+    const [scores, setScores] = useState(undefined);
     const [competitionModalOpen, setCompetitionModalOpen] = useState(false);
     const [apikeyModalOpen, setApikeyModalOpen] = useState(false);
 
-    const fetchInfo = async () => {
-        // initial info request asks for the admin route
-        const adminInfoRequest = await fetch(API_URL + '/api/competitions/admininfo', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + localStorage.getItem('authToken')
-            },
-            body: JSON.stringify({ compId: compId })
-        });
-        const parsedAdminInfoRequest = await adminInfoRequest.json();
-        if(parsedAdminInfoRequest.status === 'success'){
-            const adminInfoData = parsedAdminInfoRequest.data;
-            setCompetitionName(adminInfoData.name);
-            setApikey(adminInfoData.apikey);
-        }else{
-            // admin info route failed, look at regular info route
-            const infoRequest = await fetch(API_URL + '/api/competitions/info', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + localStorage.getItem('authToken')
-                },
-                body: JSON.stringify({ compId: compId })
-            });
-            const parsedInfoRequest = await infoRequest.json();
-            if(parsedInfoRequest.status === 'success'){
-                const infoData = parsedInfoRequest.data;
-                setCompetitionName(infoData.name);
-            }else{
-                history.push('/home');
-            }
-        }
-
-        // get the scores and set the scores state
-        const scoreRequest = await fetch(API_URL + '/api/competitions/getscores', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + localStorage.getItem('authToken')
-            },
-            body: JSON.stringify({ compId: compId })
-        });
-        const parsedScoreRequest = await scoreRequest.json();
-        if(parsedScoreRequest.status === 'success'){
-            setScores(parsedScoreRequest.data);
-            setLoading(false);
-        }else{
-            history.push('/home');
-        }
-    }
-
     useEffect(() => {
-        fetchInfo();
+        fetchInfo(history, compId, setCompetitionName, setApikey, setScores, setLoading);
     }, []);
-
-    // core logic for handling adding a user to a competition
-    const handleAddUserSubmit = async (values, actions) => {
-        const addUserRequest = await fetch(API_URL + '/api/competitions/adduser', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + localStorage.getItem('authToken')
-            },
-            body: JSON.stringify({compId: compId, username: values.username})
-        });
-        const parsedAddUserRequest = await addUserRequest.json();
-        if(parsedAddUserRequest.status){
-            if(parsedAddUserRequest.status === 'success'){
-                toast({
-                    position: 'top-right',
-                    title: 'User added to competition',
-                    description: 'The user was successfully added to the competition.',
-                    status: 'success',
-                    duration: '3000',
-                    isClosable: true
-                });
-                actions.setSubmitting(false);
-            }else if(parsedAddUserRequest.data === 'username does not exist'){
-                toast({
-                    position: 'top-right',
-                    title: 'Username not found',
-                    description: 'The requested username was not found, please try again.',
-                    status: 'error',
-                    duration: '3000',
-                    isClosable: true
-                });
-                actions.setSubmitting(false);
-            }else if(parsedAddUserRequest.data === 'the user is already a part of the competition'){
-                toast({
-                    position: 'top-right',
-                    title: 'Username is already a participant',
-                    description: 'The requested user is already a participant.',
-                    status: 'error',
-                    duration: '3000',
-                    isClosable: true
-                });
-                actions.setSubmitting(false);
-            }else{
-                toast({
-                    position: 'top-right',
-                    title: 'Something went wrong',
-                    description: 'Something went wrong, please try again.',
-                    status: 'error',
-                    duration: '3000',
-                    isClosable: true
-                });
-                actions.setSubmitting(false);
-            }
-        }else{
-            toast({
-                position: 'top-right',
-                title: 'Something went wrong',
-                description: 'Something went wrong, please try again.',
-                status: 'error',
-                duration: '3000',
-                isClosable: true
-            });
-            actions.setSubmitting(false);
-        }
-    };
 
     // validation function used with formik
     const validateNonNull = (value) => {
@@ -189,7 +71,7 @@ const Home = () => {
                     <SimpleModal open={competitionModalOpen} setOpen={setCompetitionModalOpen} header='Add a user to the competition'>
                     <Formik
                             initialValues={{ username: '' }}
-                            onSubmit={handleAddUserSubmit}
+                            onSubmit={generateHandleAddUserSubmit(toast, compId)}
                             >
                             {props => (
                                 <form onSubmit={props.handleSubmit}>
@@ -220,9 +102,22 @@ const Home = () => {
                         </Code>
                     </SimpleModal>
                     <Flex w='100%' mt='1em' mx='-1em' justify='center' flexWrap='wrap' color='white'>
-                        <Text>
-                            Here is where the core logic of subcomponents will go, I think I need to use subcomponents, it's becoming too thick
-                        </Text>
+                        <Tabs>
+                            <TabList>
+                                <Tab>Current Status</Tab>
+                                <Tab>Current Scores</Tab>
+                            </TabList>
+                            <TabPanels>
+                                <TabPanel>
+                                    <ScoreStatus scores={scores}/>
+                                </TabPanel>
+                                <TabPanel>
+                                <Text>
+                                    
+                                </Text>
+                                </TabPanel>
+                            </TabPanels>
+                        </Tabs>
                     </Flex>
                 </Box>
             </Box>

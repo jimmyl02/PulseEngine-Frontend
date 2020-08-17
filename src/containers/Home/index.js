@@ -55,7 +55,7 @@ const Home = () => {
                         Welcome {fname}
                     </Text>
                     <Flex w='100%' mt='1em' mx='-1em' justify='center' flexWrap='wrap'>
-                        <Box flex={1} p='1.5em' m='0.5em' shadow='md' borderWidth='1px' rounded='md' color='white'>
+                        <Box flex={1} p='1.5em' m='0.5em' shadow='md' borderWidth='1px' rounded='lg' color='white'>
                             <Heading fontSize='card.header'>
                                 Getting Started
                             </Heading>
@@ -88,7 +88,7 @@ const Home = () => {
                                 </List>
                             </Box>
                         </Box>
-                        <Box flex={1} p='1.5em' m='0.5em' shadow='md' borderWidth='1px' rounded='md' color='white'>
+                        <Box flex={1} p='1.5em' m='0.5em' shadow='md' borderWidth='1px' rounded='lg' color='white'>
                             <Heading fontSize='card.header'>
                                 Your Competitions
                             </Heading>

@@ -32,6 +32,24 @@ const Owned = () => {
         fetchProfile();
     }, []);
 
+    if(ownedCompetitions.length === 0){
+        return (
+            <Box position='fixed' h='100%' w='100%' bg='gray.800' overflow='auto'>
+                <Navbar textColor='white' />
+                <Box px='4em' py='3em' bg='teal' w='100%'>
+                    <Text fontSize='home.header' color='white'>
+                        Competitions you own
+                    </Text>
+                    <Flex w='100%' mt='1em' justify='center' flexDirection='column' alignItems='center'>
+                            <Text fontSize='card.text' color='white'>
+                                None :( create a competition!
+                            </Text>
+                    </Flex>
+                </Box>
+            </Box>
+        );
+    }
+
     return (
         <Box position='fixed' h='100%' w='100%' bg='gray.800' overflow='auto'>
             <Navbar textColor='white' />

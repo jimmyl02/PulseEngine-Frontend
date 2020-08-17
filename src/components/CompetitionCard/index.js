@@ -39,7 +39,7 @@ const CompetitionCard = (props) => {
     
     if(loading){
         return (
-            <Box borderWidth='1px' rounded='md' width='75%' px='1.5em' py='1em' mt='1em' height='100%' color='white'>
+            <Box borderWidth='1px' rounded='lg' width='75%' px='1.5em' py='1em' mt='1em' height='100%' color='white'>
                 <Flex justify='center'>
                     <Spinner size='md' color='darkPop' />
                 </Flex> 
@@ -47,7 +47,7 @@ const CompetitionCard = (props) => {
         );
     }else{
         return (
-            <PseudoBox borderWidth='1px' rounded='md' width='75%' px='1.5em' py='1em' mt='1em' height='100%' color='white' _hover={{ cursor: 'pointer' }} onClick={() => redirToCompetition(competitionUUID)}>
+            <PseudoBox borderWidth='1px' rounded='lg' width='75%' px='1.5em' py='1em' mt='1em' height='100%' color='white' _hover={{ cursor: 'pointer' }} onClick={() => redirToCompetition(competitionUUID)}>
                 <Text fontSize='card.text'>
                     {competitionName}
                 </Text>
