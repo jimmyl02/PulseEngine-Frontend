@@ -105,6 +105,15 @@ const Home = () => {
                         <Text color='black'>
                             Do not share this with anyone except competition administrators
                         </Text>
+                        <Text color='black'>
+                            Competition ID:
+                        </Text>
+                        <Code variantColor='gray'>
+                            {compId}
+                        </Code>
+                        <Text color='black'>
+                            API key:
+                        </Text>
                         <Code variantColor='gray'>
                             {apikey}
                         </Code>
